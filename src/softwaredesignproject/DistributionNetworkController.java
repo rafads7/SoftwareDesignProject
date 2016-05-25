@@ -15,12 +15,10 @@ public class DistributionNetworkController {
     private IDistributionNetwork distributionNetworkModel;
     
     public DistributionNetworkController(){
-        view = (IView) new View();
+        view = new View();
         distributionNetworkModel = new DistributionNetwork();
         
         distributionNetworkModel.createDistributionNewtork();
         
-        //view.provideData();
-        //DistributionNetworkModel.provideData();
     }
 }

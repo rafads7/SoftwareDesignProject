@@ -6,7 +6,6 @@
 package softwaredesignproject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
@@ -14,17 +13,9 @@ import org.jgrapht.graph.SimpleWeightedGraph;
  *
  * @author rafad
  */
-public class Graph{
-    
-    final int MAXIMUM_VERTEXS = 8, MINIMUM_VERTEXS = 5, MAXIMUM_EDGES = getMaximumLines();
-    final int WIDTH = 50, HEIGHT = 50;
-    
-    private SimpleWeightedGraph<Vertex, Edge> graph;
-    private List<Vertex> lVertexs;
-    private List<Edge> lEdges;
+public class NetworkDistribution extends Grafo{
 
-    public Graph() {
-
+    public NetworkDistribution() {
         initialize();
         int vertexsNumber = getRandomVertexsNumber();
         int edgesNumber = getRandomEdgesNumber();
@@ -35,7 +26,7 @@ public class Graph{
     private void initialize(){
         this.lVertexs = new ArrayList<>();
         this.lEdges = new ArrayList<>();
-        this.graph = new SimpleWeightedGraph<>(Edge.class);
+        this.graph = new SimpleWeightedGraph<>(Road.class);
     }
     private int getRandomVertexsNumber(){
         Random random = new Random();
@@ -52,16 +43,16 @@ public class Graph{
     }
     private void createVertexs(int vNumber) {
         Random random = new Random();
-        int currentVertexs = 0, position = 0;
+        int currentStores = 0, position = 0;
         boolean[][] map = new boolean[MAXIMUM_VERTEXS][MAXIMUM_VERTEXS];
         
         for(int i=0; i<MAXIMUM_VERTEXS; i++){
-            if(currentVertexs < vNumber && random.nextBoolean()){
+            if(currentStores < vNumber && random.nextBoolean()){
                 position = random.nextInt(MAXIMUM_VERTEXS);
                 if(!map[i][position]){
                     map[i][position] = true;
-                    this.lVertexs.add(new Vertex(i*100, position*100, WIDTH, HEIGHT));
-                    currentVertexs++;
+                    this.lVertexs.add(new Store(i*100, position*100, WIDTH, HEIGHT));
+                    currentStores++;
                 }
             }
         } 
@@ -69,16 +60,16 @@ public class Graph{
     private void createEdges(int eNumber) {
         Random random = new Random();
         int vIndex1 = 0, vIndex2 = 0, currentLines = 0;
-        Edge e1, e2;
+        Road r1, r2;
         
         while(currentLines < eNumber){
             vIndex1 = random.nextInt(lVertexs.size());
             vIndex2 = random.nextInt(lVertexs.size());
-            e1 = new Edge(lVertexs.get(vIndex1), lVertexs.get(vIndex2));
-            e2 = new Edge(lVertexs.get(vIndex2), lVertexs.get(vIndex1));
+            r1 = new Road(lVertexs.get(vIndex1), lVertexs.get(vIndex2));
+            r2 = new Road(lVertexs.get(vIndex2), lVertexs.get(vIndex1));
             
-            if(vIndex1 != vIndex2 && !lEdges.contains(e1) && !lEdges.contains(e2)){
-                lEdges.add(e1);
+            if(vIndex1 != vIndex2 && !lEdges.contains(r1) && !lEdges.contains(r2)){
+                lEdges.add(r1);
                 currentLines++;
             }
         }
@@ -87,27 +78,5 @@ public class Graph{
         
     }
     
-    private int getMaximumLines(){
-        int ret = 0;
-        int maxStores = MAXIMUM_VERTEXS-1;
-        while(maxStores>0){
-            ret = ret + maxStores;
-            maxStores--;
-        }      
-        return ret;
-    }
-    
-    public List<Vertex> getlVertexs() {
-        return lVertexs;
-    }
-    public void setlVertexs(List<Vertex> lVertexs) {
-        this.lVertexs = lVertexs;
-    }
-    public List<Edge> getlEdges() {
-        return lEdges;
-    }
-    public void setlEdges(List<Edge> lEdges) {
-        this.lEdges = lEdges;
-    }
 
 }

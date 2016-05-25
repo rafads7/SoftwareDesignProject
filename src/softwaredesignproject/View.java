@@ -13,5 +13,8 @@ class View implements IView {
 
     public View() {
     }
+
+    @Override
+    public void paint() {}
     
 }

@@ -9,7 +9,7 @@ package softwaredesignproject;
  *
  * @author rafad
  */
-public interface IView {
+public interface IGrafo {
     
-    public void paint();
+    public void createGraph();
 }
