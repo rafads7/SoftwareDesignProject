@@ -11,15 +11,23 @@ package softwaredesignproject;
  */
 public class SoftwareDesignProject {
 
+    
     /**
      * @param args the command line arguments
      */
+//    public static void main(String[] args) {
+//        IDistributionNetwork distributionNetworkModel = new DistributionNetwork();
+//        IView distributionNetworkView = new DistributionNetworkView();
+//        
+//        DistributionNetworkController controller = new DistributionNetworkController(distributionNetworkModel, distributionNetworkView);
+//        
+//        distributionNetworkView.setController(controller);
+//        distributionNetworkView.start();
+//
+//    }
+    
     public static void main(String[] args) {
-        
         DistributionNetworkController controller = new DistributionNetworkController();
-        
-//        IDistributionNetwork dNetwork = new DistributionNetwork();
-//        dNetwork.createNewGraph();
     }
     
 }
