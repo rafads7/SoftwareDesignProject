@@ -15,19 +15,20 @@ public class SoftwareDesignProject {
     /**
      * @param args the command line arguments
      */
-//    public static void main(String[] args) {
-//        IDistributionNetwork distributionNetworkModel = new DistributionNetwork();
-//        IView distributionNetworkView = new DistributionNetworkView();
-//        
-//        DistributionNetworkController controller = new DistributionNetworkController(distributionNetworkModel, distributionNetworkView);
-//        
-//        distributionNetworkView.setController(controller);
-//        distributionNetworkView.start();
-//
-//    }
-    
     public static void main(String[] args) {
-        DistributionNetworkController controller = new DistributionNetworkController();
+        IDistributionNetwork distributionNetworkModel = new DistributionNetwork();
+        IView distributionNetworkView = new DistributionNetworkView();
+        
+        DistributionNetworkController controller = new DistributionNetworkController(distributionNetworkModel, distributionNetworkView);
+        
+        distributionNetworkView.setController(controller);
+        distributionNetworkView.start();
+
     }
+    
+    //asi lo habiamos hecho esta tarde,, peor el d arriba es tal como lo hace el conversor de pesetas
+//    public static void main(String[] args) {
+//        DistributionNetworkController controller = new DistributionNetworkController();
+//    }
     
 }
