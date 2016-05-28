@@ -12,5 +12,5 @@ package softwaredesignproject;
 public interface IDistributionNetwork {
     
     public void createDistributionNewtork();
-    public void registerOrder();
+    public Graph getNetworkMap();
 }

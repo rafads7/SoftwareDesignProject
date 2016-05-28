@@ -53,7 +53,7 @@ public class DistributionNetworkView extends javax.swing.JFrame implements IView
         panel.setLayout(null);
         this.setContentPane(panel);
         this.setSize(800, 800);
-        this.setLocationByPlatform(true);
+        //this.setLocationByPlatform(true);
         this.setVisible(true);
     }
     
@@ -62,7 +62,7 @@ public class DistributionNetworkView extends javax.swing.JFrame implements IView
         for(Vertex v : controller.getNetworkMap().vertexSet()){
             //vertex = new RoundButton("iep", new ImageIcon("C:\\Users\\rafad\\Desktop\\Rafa\\European Master Software Engineering\\2nd\\Software Design\\SoftwareDesignProject\\color.png"));
             vertex = new JButton();
-            vertex.setText("S");
+            vertex.setText(v.getLabel());
             vertex.setSize(50, 50);
             vertex.setLocation(v.getCoordX(), v.getCoordY());
             vertex.setVisible(true);

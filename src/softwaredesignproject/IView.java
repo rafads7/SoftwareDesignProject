@@ -10,6 +10,11 @@ package softwaredesignproject;
  * @author rafad
  */
 public interface IView {
+
     
-    public void paint();
+    public void start();
+    public void setController(DistributionNetworkController c);
+    public void setVisibility(boolean v);
+
+    //public void loadNetworkMap(Graph networkMap);
 }

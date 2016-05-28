@@ -9,10 +9,41 @@ package softwaredesignproject;
  *
  * @author rafad
  */
-public class Store extends Vertex{
+public class Store{
     
-    public Store(int coordX, int coordY, int width, int height) {
-        super(coordX, coordY, width, height);
+    private String name = "";
+    private Vertex v;
+    private int id = 0;
+    private int coordX = 0, coordY = 0;
+    
+    public Store(int coordX, int coordY, int id) {
+        this.coordX = coordX;
+        this.coordY = coordY;
+        this.id = id;
+    }
+    
+    public Store(String name, int coordX, int coordY, int id) {
+        this.coordX = coordX;
+        this.coordY = coordY;
+        this.name = name;
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public Vertex representStore(){
+        this.v = new Vertex(this.coordX, this.coordY, this.getName());
+        return this.v;
+    }
+    
+    public Vertex getVertexRepresentation(){
+        return this.v;
     }
     
 }

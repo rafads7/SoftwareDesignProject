@@ -9,15 +9,20 @@ package softwaredesignproject;
  *
  * @author rafad
  */
-public class Vertex {
+public class Vertex{
     
-    private int coordX, coordY, width, height;
+    private int coordX = 0, coordY = 0;
+    private final int WIDTH = 50, HEIGHT = 50;
+    private String label = "";
 
-    public Vertex(int coordX, int coordY, int width, int height) {
+    public Vertex(int coordX, int coordY, String label) {
         this.coordX = coordX;
         this.coordY = coordY;
-        this.width = width;
-        this.height = height;
+        this.label = label;
+    }
+    
+    public Vertex(){
+        
     }
     
     public int getCoordX() {
@@ -35,28 +40,20 @@ public class Vertex {
     public void setCoordY(int coordY) {
         this.coordY = coordY;
     }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
+    
+    public int getCenterX(){
+        return this.coordX + (WIDTH/2);
     }
     
-    public double getCenterX(){
-        return this.coordX + (this.width/2);
+    public int getCenterY(){
+        return this.coordY + (HEIGHT/2);
+    }
+
+    public String getLabel() {
+        return this.label;
     }
     
-    public double getCenterY(){
-        return this.coordY + (this.height/2);
+    public void setLabel(String label){
+        this.label = label;
     }
 }
