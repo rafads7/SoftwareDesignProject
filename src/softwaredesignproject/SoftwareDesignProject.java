@@ -16,10 +16,12 @@ public class SoftwareDesignProject {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        IDistributionNetwork distributionNetworkModel = new DistributionNetwork();
+        IView storeView = null, trafficView = null, ordersView = null;
+        
+        DistributionNetwork distributionNetworkModel = new DistributionNetwork();
         IView distributionNetworkView = new DistributionNetworkView();
         
-        DistributionNetworkController controller = new DistributionNetworkController(distributionNetworkModel, distributionNetworkView);
+        DistributionNetworkController controller = new DistributionNetworkController(distributionNetworkModel, distributionNetworkView, storeView, trafficView, ordersView);
         
         distributionNetworkView.setController(controller);
         distributionNetworkView.start();

@@ -21,10 +21,6 @@ public class Vertex{
         this.label = label;
     }
     
-    public Vertex(){
-        
-    }
-    
     public int getCoordX() {
         return coordX;
     }

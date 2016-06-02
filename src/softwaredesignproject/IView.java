@@ -16,5 +16,5 @@ public interface IView {
     public void setController(DistributionNetworkController c);
     public void setVisibility(boolean v);
 
-    //public void loadNetworkMap(Graph networkMap);
+    static final String EXECUTE = "Execute", TRAFFIC = "Finish";
 }

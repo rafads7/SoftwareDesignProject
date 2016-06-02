@@ -27,21 +27,25 @@ public class Graph extends SimpleWeightedGraph<Vertex, Edge>{
 
 
     public void createGraph(List<Vertex> vertexs, List<Edge> edges) {
-        addVertexs(vertexs);
-        addEdges(edges);
+        addVertexsToGraph(vertexs);
+        addEdgesToGraph(edges);
     }
     
-    private void addVertexs(List<Vertex> vertexs){
+    private void addVertexsToGraph(List<Vertex> vertexs){
         for(Vertex v : vertexs){
             this.addVertex(v);
         }
     }
 
-    private void addEdges(List<Edge> edges) {
+    private void addEdgesToGraph(List<Edge> edges) {
         for(Edge e : edges){
-            this.addEdge(e.getV1(), e.getV2());
-            this.getEdge(e.getV1(), e.getV2()).setV1(e.getV1());
-            this.getEdge(e.getV1(), e.getV2()).setV2(e.getV2());
+            this.addEdge(e.getV1(), e.getV2(), e);
         }
+        
+//        for(Edge e : edges){
+//            this.addEdge(e.getV1(), e.getV2());
+//            this.getEdge(e.getV1(), e.getV2()).setV1(e.getV1());
+//            this.getEdge(e.getV1(), e.getV2()).setV2(e.getV2());
+//        }
     }
 }

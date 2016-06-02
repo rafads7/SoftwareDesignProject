@@ -36,4 +36,8 @@ public class Edge extends DefaultWeightedEdge{
     public void setV2(Vertex v2) {
         this.v2 = v2;
     }
+
+    void paintEdge() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
