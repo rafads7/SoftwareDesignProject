@@ -8,9 +8,8 @@ package softwaredesignproject;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -20,82 +19,91 @@ import javax.swing.JPanel;
  */
 public class DistributionNetworkView extends javax.swing.JFrame implements IView{
 
-    DistributionNetworkController controller;
+    private DistributionNetworkController controller;
+    private JPanel panel;
+    private String paintAgain = "";
+    
+    private final String PREVIEW = "Preview Route", TRAFFIC_JUMP = "Traffic jump";
     /**
      * Creates new form View
      */
     public DistributionNetworkView() {
         initComponents();
     }
+    
+//    public static JPanel getPanel(){
+//        return DistributionNetworkView.panel;
+//    }
+//    
+//    public static void setPaintAgain(String p){
+//        DistributionNetworkView.paintAgain = p;
+//    }
+//    
+//    public static DistributionNetworkController getController(){
+//        return DistributionNetworkView.controller;
+//    }
 
+    public JPanel getJPanel(){
+        return this.panel;
+    }
+    
     @Override
     public void start() {     
         initComponents();
         this.loadNetworkMap();
     }
-
     @Override
     public void setController(DistributionNetworkController c) {
         controller = c;
+        this.executeButton.setActionCommand(EXECUTE);
+        this.executeButton.addActionListener(controller);
     }
     
     private void loadNetworkMap() {
 
-        JPanel panel = new JPanel(){
-            @Override
-            public void paintComponent(Graphics g){
-                //loadVertexs(g);
-                loadEdges(g);
-            }
-        };  
-        loadVertexsButtons(panel);
-        panel.setOpaque(true);
-        panel.setLayout(null);
+        JPanel panel = drawNetworkMap();
+        panel.add(this.executeButton);
         this.setContentPane(panel);
-        this.setSize(800, 800);
-        //this.setLocationByPlatform(true);
+        this.setSize(800, 900);
         this.setVisible(true);
     }
     
-    private void loadVertexsButtons(JPanel p){
-        JButton vertex;
-        for(Vertex v : controller.getNetworkMap().vertexSet()){
-            //vertex = new RoundButton("iep", new ImageIcon("C:\\Users\\rafad\\Desktop\\Rafa\\European Master Software Engineering\\2nd\\Software Design\\SoftwareDesignProject\\color.png"));
-            vertex = new JButton();
-            vertex.setText(v.getLabel());
-            vertex.setSize(50, 50);
-            vertex.setLocation(v.getCoordX(), v.getCoordY());
-            vertex.setVisible(true);
-            vertex.addActionListener(controller);
-            p.add(vertex);
-        }
-    }
-    
-    //ACTUALMENTE NO SE USA, se usa la otra, simplemente porque me era mas facil hacer el boton clickable
-    private void loadVertexs(Graphics g){
+    private JPanel drawNetworkMap(){
 
-        for(Vertex v : controller.getNetworkMap().vertexSet()){
-            
-            Ellipse2D oval = new Ellipse2D.Double(v.getCoordX(), v.getCoordY(), 50, 50) {};
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setColor(Color.red);
-            g2d.fill(oval);
-            
-            //g.setColor(Color.red);         
-            //g.fillOval(v.getCoordX(), v.getCoordY(), 50, 50); 
-            
-        }
+        panel = new JPanel(){
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
+                if(paintAgain.equals("preview")){    
+                    List<Store> stores = controller.getDistributionNetworkModel().getStoresWithOrders();
+                    List<Edge> routeToPaint = controller.getDistributionNetworkModel().defineDistributionNetwork(stores);
+                    if(routeToPaint!=null){         
+                        for(Road r : controller.getDistributionNetworkModel().getRoads()){
+                            if(routeToPaint.contains(r.getEdge())){
+                                r.drawRoad(g, Color.green);
+                            }else{
+                                if(r.isAvailable()){
+                                    r.drawRoad(g, Color.black);
+                                }else{
+                                    r.drawRoad(g, Color.red);
+                                }
+                            }
+                        }
+                    }
+                    paintAgain = "";
+                }else{
+                    controller.getDistributionNetworkModel().drawRoads(g);
+                }
+            }           
+        };      
+        this.controller.getDistributionNetworkModel().drawStores(panel, paintAgain);
 
-    }
-   
-    
-    private void loadEdges(Graphics g){    
-        for(Edge e : controller.getNetworkMap().edgeSet()){
-            g.setColor(Color.black);
-            g.drawLine(e.getV1().getCenterX(), e.getV1().getCenterY(), e.getV2().getCenterX(), e.getV2().getCenterY());
-        }
+        panel.setOpaque(true);
+        panel.setLayout(null);
+        return panel;
     }
     
+
     @Override
     public void setVisibility(boolean v){
         this.setVisible(v);
@@ -109,21 +117,50 @@ public class DistributionNetworkView extends javax.swing.JFrame implements IView
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        executeButton = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        executeButton.setText("Preview Route");
+        executeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                executeButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 697, Short.MAX_VALUE)
+                .addComponent(executeButton))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 777, Short.MAX_VALUE)
+                .addComponent(executeButton))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void executeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_executeButtonActionPerformed
+//        this.executeButton.setActionCommand(EXECUTE);
+//        this.executeButton.addActionListener(controller);
+            if(this.executeButton.getText().equals(PREVIEW)){    
+                this.paintAgain = "preview";
+                this.panel.repaint();
+                this.executeButton.setText(TRAFFIC_JUMP);
+            }else if(this.executeButton.getText().equals(TRAFFIC_JUMP)){
+                TrafficJumpView trafficView = new TrafficJumpView();
+                trafficView.setVisibility(true);
+                trafficView.setController(this.controller);
+                trafficView.start();
+                this.executeButton.setText(PREVIEW);
+            }
+    }//GEN-LAST:event_executeButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,6 +200,47 @@ public class DistributionNetworkView extends javax.swing.JFrame implements IView
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton executeButton;
     // End of variables declaration//GEN-END:variables
 
+    
+    
+//        //NOT USED
+//    private void loadVertexsButtons(JPanel p){
+//        JButton vertex;
+//        for(Vertex v : controller.getNetworkMap().vertexSet()){
+//            //vertex = new RoundButton("iep", new ImageIcon("C:\\Users\\rafad\\Desktop\\Rafa\\European Master Software Engineering\\2nd\\Software Design\\SoftwareDesignProject\\color.png"));
+//            vertex = new JButton();
+//            vertex.setText(v.getLabel());
+//            vertex.setSize(50, 50);
+//            vertex.setLocation(v.getCoordX(), v.getCoordY());
+//            vertex.setVisible(true);
+//            vertex.addActionListener(controller);
+//            p.add(vertex);
+//        }
+//    } 
+//    //ACTUALMENTE NO SE USA, se usa la otra, simplemente porque me era mas facil hacer el boton clickable
+//    private void loadVertexs(Graphics g){
+//
+//        for(Vertex v : controller.getNetworkMap().vertexSet()){
+//            
+//            Ellipse2D oval = new Ellipse2D.Double(v.getCoordX(), v.getCoordY(), 50, 50) {};
+//            Graphics2D g2d = (Graphics2D) g;
+//            g2d.setColor(Color.red);
+//            g2d.fill(oval);
+//            
+//            //g.setColor(Color.red);         
+//            //g.fillOval(v.getCoordX(), v.getCoordY(), 50, 50); 
+//            
+//        }
+//
+//    }
+//    //NOT USED
+//    private void loadEdges(Graphics g){    
+//        for(Edge e : controller.getNetworkMap().edgeSet()){
+//            g.setColor(Color.black);
+//            g.drawLine(e.getV1().getCenterX(), e.getV1().getCenterY(), e.getV2().getCenterX(), e.getV2().getCenterY());
+//        }
+//    }
+    
 }
