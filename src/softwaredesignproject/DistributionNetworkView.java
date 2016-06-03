@@ -7,10 +7,12 @@ package softwaredesignproject;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
 import java.util.List;
+import javafx.scene.control.Alert;
+import javafx.stage.PopupWindow;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -30,18 +32,6 @@ public class DistributionNetworkView extends javax.swing.JFrame implements IView
     public DistributionNetworkView() {
         initComponents();
     }
-    
-//    public static JPanel getPanel(){
-//        return DistributionNetworkView.panel;
-//    }
-//    
-//    public static void setPaintAgain(String p){
-//        DistributionNetworkView.paintAgain = p;
-//    }
-//    
-//    public static DistributionNetworkController getController(){
-//        return DistributionNetworkView.controller;
-//    }
 
     public JPanel getJPanel(){
         return this.panel;
@@ -55,19 +45,16 @@ public class DistributionNetworkView extends javax.swing.JFrame implements IView
     @Override
     public void setController(DistributionNetworkController c) {
         controller = c;
-        this.executeButton.setActionCommand(EXECUTE);
-        this.executeButton.addActionListener(controller);
     }
     
     private void loadNetworkMap() {
 
-        JPanel panel = drawNetworkMap();
+        panel = drawNetworkMap();
         panel.add(this.executeButton);
         this.setContentPane(panel);
         this.setSize(800, 900);
         this.setVisible(true);
-    }
-    
+    }    
     private JPanel drawNetworkMap(){
 
         panel = new JPanel(){
@@ -76,9 +63,9 @@ public class DistributionNetworkView extends javax.swing.JFrame implements IView
                 super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
                 if(paintAgain.equals("preview")){    
                     List<Store> stores = controller.getDistributionNetworkModel().getStoresWithOrders();
-                    List<Edge> routeToPaint = controller.getDistributionNetworkModel().defineDistributionNetwork(stores);
-                    if(routeToPaint!=null){         
-                        for(Road r : controller.getDistributionNetworkModel().getRoads()){
+                    List<Edge> routeToPaint = controller.getDistributionNetworkModel().defineDistributionNetwork(stores);       
+                    for(Road r : controller.getDistributionNetworkModel().getRoads()){
+                        if(routeToPaint != null && !routeToPaint.isEmpty()){
                             if(routeToPaint.contains(r.getEdge())){
                                 r.drawRoad(g, Color.green);
                             }else{
@@ -88,8 +75,18 @@ public class DistributionNetworkView extends javax.swing.JFrame implements IView
                                     r.drawRoad(g, Color.red);
                                 }
                             }
+                        }else{
+                            if(r.isAvailable()){
+                                r.drawRoad(g, Color.black);
+                            }else{
+                                r.drawRoad(g, Color.red);
+                            }
                         }
                     }
+                    JOptionPane.showMessageDialog(this,
+                    "Sorry, no route was found.",
+                    "Error message:",
+                    JOptionPane.ERROR_MESSAGE);    
                     paintAgain = "";
                 }else{
                     controller.getDistributionNetworkModel().drawRoads(g);
